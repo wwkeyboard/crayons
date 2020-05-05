@@ -23,12 +23,16 @@ impl Document {
 
 impl Node for Document {
     fn render(&self) -> String {
-        "<!DOCTYPE html><html>".to_string()
-            //+ self.children.iter().fold("", |acc, x| x.borrow())
-            + "</html>"
-
-        //acc.push(c.render()))
-        //+ "</html>".to_string()
+        let inner = self
+            .children
+            .iter()
+            .map(|x| x.borrow().render())
+            .collect::<Vec<String>>()
+            .join("\n");
+        format!(
+            "<!DOCTYPE html><head><meta charset=\"UTF-8\"></head><html>{}</html>",
+            inner
+        )
     }
 }
 
@@ -59,7 +63,10 @@ mod tests {
     fn blank_document() {
         let doc = Document::new();
         let result = Document::render(&doc);
-        assert_eq!(result, "<!DOCTYPE html><html></html>");
+        assert_eq!(
+            result,
+            "<!DOCTYPE html><head><meta charset=\"UTF-8\"></head><html></html>"
+        );
     }
 
     #[test]
@@ -67,7 +74,9 @@ mod tests {
         let mut doc = Document::new();
         doc.h1(format!("blah {}", 1));
         let result = doc.render();
-        assert_eq!(result, "<!DOCTYPE html><html></html>")
-        //        assert_eq!(result, "<!DOCTYPE html><html><h1>blah 1</h1></html>")
+        assert_eq!(
+            result,
+            "<!DOCTYPE html><head><meta charset=\"UTF-8\"></head><html><h1>blah 1</h1></html>"
+        )
     }
 }
