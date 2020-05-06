@@ -1,6 +1,10 @@
 use std::cell::RefCell;
 use std::rc::Rc;
 
+use elements::h1::H1;
+
+mod elements;
+
 pub trait Node {
     fn render(&self) -> String;
 }
@@ -15,9 +19,9 @@ impl Document {
     }
 
     pub fn h1(&mut self, text: String) -> H1 {
-        let h = Rc::new(RefCell::new(H1Node { text: text }));
-        self.children.push(h.clone());
-        H1 { node: h }
+        let (element, node) = H1::new(text);
+        self.children.push(node);
+        element
     }
 }
 
@@ -34,20 +38,6 @@ impl Node for Document {
             inner
         )
     }
-}
-
-pub struct H1Node {
-    text: String,
-}
-
-impl Node for H1Node {
-    fn render(&self) -> String {
-        format!("<h1>{}</h1>", self.text)
-    }
-}
-
-pub struct H1 {
-    node: Rc<RefCell<H1Node>>,
 }
 
 #[cfg(test)]
