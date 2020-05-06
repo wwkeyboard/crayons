@@ -45,11 +45,6 @@ mod tests {
     use super::*;
 
     #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
-    }
-
-    #[test]
     fn blank_document() {
         let doc = Document::new();
         let result = Document::render(&doc);
