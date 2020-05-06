@@ -24,3 +24,6 @@ impl H1 {
         (element, node)
     }
 }
+
+#[cfg(test)]
+mod tests {}
