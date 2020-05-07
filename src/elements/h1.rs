@@ -28,4 +28,10 @@ impl H1 {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn test_new() {
+        let (test_element, test_node) = H1::new("test".to_owned());
+        assert_eq!(test_node.borrow().render(), "<h1>test</h1>");
+    }
 }
