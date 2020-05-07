@@ -34,7 +34,7 @@ impl Node for Document {
             .collect::<Vec<String>>()
             .join("\n");
         format!(
-            "<!DOCTYPE html><head><meta charset=\"UTF-8\"></head><html>{}</html>",
+            "<!DOCTYPE html><html><head><meta charset=\"UTF-8\"></head><body>{}</body></html>",
             inner
         )
     }
@@ -50,7 +50,7 @@ mod tests {
         let result = Document::render(&doc);
         assert_eq!(
             result,
-            "<!DOCTYPE html><head><meta charset=\"UTF-8\"></head><html></html>"
+            "<!DOCTYPE html><html><head><meta charset=\"UTF-8\"></head><body></body></html>"
         );
     }
 
@@ -61,7 +61,7 @@ mod tests {
         let result = doc.render();
         assert_eq!(
             result,
-            "<!DOCTYPE html><head><meta charset=\"UTF-8\"></head><html><h1>blah 1</h1></html>"
+            "<!DOCTYPE html><html><head><meta charset=\"UTF-8\"></head><body><h1>blah 1</h1></body></html>"
         )
     }
 }
