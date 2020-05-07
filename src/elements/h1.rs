@@ -26,4 +26,6 @@ impl H1 {
 }
 
 #[cfg(test)]
-mod tests {}
+mod tests {
+    use super::*;
+}
