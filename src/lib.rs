@@ -60,4 +60,15 @@ mod tests {
             "<!DOCTYPE html><html><head><meta charset=\"UTF-8\"><title></title></head><body></body></html>"
         );
     }
+
+    #[test]
+    fn with_body() {
+        let mut doc = Document::new();
+        doc.h1("I'm here!".to_owned());
+        let result = Document::render(&doc);
+        assert_eq!(
+            result,
+            "<!DOCTYPE html><html><head><meta charset=\"UTF-8\"><title></title></head><body><h1>I'm here!</h1></body></html>"
+        );
+    }
 }
