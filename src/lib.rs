@@ -12,23 +12,23 @@ pub trait Node {
 }
 
 pub struct Document {
-    children: Vec<Rc<RefCell<dyn Node>>>,
+    body: Vec<Rc<RefCell<dyn Node>>>,
 }
 
 impl Document {
     pub fn new() -> Document {
-        Document { children: vec![] }
+        Document { body: vec![] }
     }
 
     pub fn h1(&mut self, text: String) -> H1 {
         let (element, node) = H1::new(text);
-        self.children.push(node);
+        self.body.push(node);
         element
     }
 
     pub fn title(&mut self, text: String) -> Title {
         let (element, node) = Title::new(text);
-        self.children.push(node);
+        self.body.push(node);
         element
     }
 }
@@ -36,7 +36,7 @@ impl Document {
 impl Node for Document {
     fn render(&self) -> String {
         let inner = self
-            .children
+            .body
             .iter()
             .map(|x| x.borrow().render())
             .collect::<Vec<String>>()
