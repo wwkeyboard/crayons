@@ -3,6 +3,7 @@ use std::rc::Rc;
 
 use elements::h1::H1;
 use elements::title::Title;
+use elements::head::Head;
 
 mod elements;
 
