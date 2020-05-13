@@ -2,6 +2,7 @@ use std::cell::RefCell;
 use std::rc::Rc;
 
 use elements::h1::H1;
+use elements::title::Title;
 
 mod elements;
 
@@ -23,6 +24,12 @@ impl Document {
         self.children.push(node);
         element
     }
+
+    pub fn title(&mut self, text: String) -> Title {
+        let (element, node) = Title::new(text);
+        self.children.push(node);
+        element
+    }
 }
 
 impl Node for Document {
@@ -34,7 +41,7 @@ impl Node for Document {
             .collect::<Vec<String>>()
             .join("\n");
         format!(
-            "<!DOCTYPE html><html><head><meta charset=\"UTF-8\"></head><body>{}</body></html>",
+            "<!DOCTYPE html><html><head><meta charset=\"UTF-8\"><title></title></head><body>{}</body></html>",
             inner
         )
     }
@@ -50,18 +57,7 @@ mod tests {
         let result = Document::render(&doc);
         assert_eq!(
             result,
-            "<!DOCTYPE html><html><head><meta charset=\"UTF-8\"></head><body></body></html>"
+            "<!DOCTYPE html><html><head><meta charset=\"UTF-8\"><title></title></head><body></body></html>"
         );
-    }
-
-    #[test]
-    fn document_renders_children() {
-        let mut doc = Document::new();
-        doc.h1(format!("blah {}", 1));
-        let result = doc.render();
-        assert_eq!(
-            result,
-            "<!DOCTYPE html><html><head><meta charset=\"UTF-8\"></head><body><h1>blah 1</h1></body></html>"
-        )
     }
 }
