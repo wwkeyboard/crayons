@@ -3,7 +3,6 @@ use std::rc::Rc;
 
 use elements::h1::H1;
 use elements::head::Head;
-use elements::title::Title;
 
 mod elements;
 
@@ -12,20 +11,17 @@ pub trait Node {
 }
 
 pub struct Document {
-    head: Rc<RefCell<dyn Node>>,
+    pub head: Head,
     body: Vec<Rc<RefCell<dyn Node>>>,
 }
 
 impl Document {
-    pub fn new() -> (Head, Document) {
-        let (head, head_node) = Head::new();
-        (
-            head,
-            Document {
-                body: vec![],
-                head: head_node,
-            },
-        )
+    pub fn new() -> Document {
+        let head = Head::new();
+        Document {
+            body: vec![],
+            head: head,
+        }
     }
 
     pub fn h1(&mut self, text: String) -> H1 {
@@ -33,17 +29,11 @@ impl Document {
         self.body.push(node);
         element
     }
-
-    pub fn title(&mut self, text: String) -> Title {
-        let (element, node) = Title::new(text);
-        self.body.push(node);
-        element
-    }
 }
 
 impl Node for Document {
     fn render(&self) -> String {
-        let head = self.head.borrow().render();
+        let head = self.head.render();
         let inner = self
             .body
             .iter()
@@ -60,7 +50,7 @@ mod tests {
 
     #[test]
     fn blank_document() {
-        let (head, doc) = Document::new();
+        let doc = Document::new();
         let result = Document::render(&doc);
         assert_eq!(
             result,
@@ -70,8 +60,8 @@ mod tests {
 
     #[test]
     fn with_body() {
-        let (mut head, mut doc) = Document::new();
-        head.title("this test!".to_owned());
+        let mut doc = Document::new();
+        doc.head.title.text = "this test!".to_owned();
         doc.h1("I'm here!".to_owned());
         let result = Document::render(&doc);
         assert_eq!(

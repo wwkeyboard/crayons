@@ -1,36 +1,24 @@
-use std::cell::RefCell;
-use std::rc::Rc;
-
+use crate::elements::title::Title;
 use crate::Node;
 
-pub struct HeadNode {
-    pub title: String,
+pub struct Head {
+    pub title: Title,
 }
 
-impl Node for HeadNode {
+impl Node for Head {
     fn render(&self) -> String {
         format!(
-            "<head><meta charset=\"UTF-8\"><title>{}</title></head>",
-            self.title
+            "<head><meta charset=\"UTF-8\">{}</head>",
+            self.title.render()
         )
     }
 }
 
-pub struct Head {
-    node: Rc<RefCell<HeadNode>>,
-}
-
 impl Head {
-    pub fn new() -> (Head, Rc<RefCell<HeadNode>>) {
-        let node = Rc::new(RefCell::new(HeadNode {
-            title: "".to_owned(),
-        }));
-        let element = Head { node: node.clone() };
-        (element, node)
-    }
-
-    pub fn title(&mut self, title: String) {
-        self.node.borrow_mut().title = title;
+    pub fn new() -> Head {
+        Head {
+            title: Title::new("".to_owned()),
+        }
     }
 }
 
@@ -40,14 +28,14 @@ mod tests {
 
     #[test]
     fn test_new() {
-        let (mut test_element, test_node) = Head::new();
+        let mut node = Head::new();
         assert_eq!(
-            test_node.borrow().render(),
+            node.render(),
             "<head><meta charset=\"UTF-8\"><title></title></head>"
         );
-        test_element.title("test".to_string());
+        node.title.text = "test".to_string();
         assert_eq!(
-            test_node.borrow().render(),
+            node.render(),
             "<head><meta charset=\"UTF-8\"><title>test</title></head>"
         );
     }
