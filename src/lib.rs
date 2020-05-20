@@ -29,10 +29,8 @@ impl Document {
         self.body.push(node);
         element
     }
-}
 
-impl Node for Document {
-    fn render(&self) -> String {
+    pub fn render(&self) -> String {
         let head = self.head.render();
         let inner = self
             .body
