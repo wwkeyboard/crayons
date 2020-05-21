@@ -6,3 +6,5 @@ edition = "2018"
 
 [dependencies]
 
+[dev-dependencies]
+select = "0.4.3"
