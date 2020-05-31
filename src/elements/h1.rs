@@ -1,27 +1,18 @@
-use std::cell::RefCell;
-use std::rc::Rc;
-
 use crate::Node;
 
-pub struct H1Node {
-    text: String,
+pub struct H1 {
+    pub text: RC<RefCell<String>>,
 }
 
-impl Node for H1Node {
+impl Node for H1 {
     fn render(&self) -> String {
         format!("<h1>{}</h1>", self.text)
     }
 }
 
-pub struct H1 {
-    node: Rc<RefCell<H1Node>>,
-}
-
 impl H1 {
-    pub fn new(text: String) -> (H1, Rc<RefCell<H1Node>>) {
-        let node = Rc::new(RefCell::new(H1Node { text: text }));
-        let element = H1 { node: node.clone() };
-        (element, node)
+    pub fn new(text: String) -> H1 {
+        H1 { text: text }
     }
 }
 
@@ -31,7 +22,7 @@ mod tests {
 
     #[test]
     fn test_new() {
-        let (test_element, test_node) = H1::new("test".to_owned());
-        assert_eq!(test_node.borrow().render(), "<h1>test</h1>");
+        let h1 = H1::new("test".to_owned());
+        assert_eq!(h1.render(), "<h1>test</h1>");
     }
 }

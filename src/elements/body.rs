@@ -3,23 +3,16 @@ use std::cell::RefCell;
 use std::rc::Rc;
 
 pub struct Body {
-    pub node: Rc<RefCell<BodyNode>>,
+    children: Vec<Rc<RefCell<dyn Node>>>,
 }
 
 impl Body {
     pub fn new() -> Body {
-        let node = BodyNode { children: vec![] };
-        Body {
-            node: Rc::new(RefCell::new(node)),
-        }
+        Body { children: vec![] }
     }
 }
 
-pub struct BodyNode {
-    children: Vec<Rc<RefCell<dyn Node>>>,
-}
-
-impl Node for BodyNode {
+impl Node for Body {
     fn render(&self) -> String {
         let inner = self
             .children
@@ -39,6 +32,6 @@ mod tests {
     #[test]
     fn blank_document() {
         let body = Body::new();
-        assert_eq!(body.node.borrow().render(), "<body></body>");
+        assert_eq!(body.render(), "<body></body>");
     }
 }

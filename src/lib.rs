@@ -1,3 +1,4 @@
+#![allow(dead_code)]
 use std::cell::RefCell;
 use std::rc::Rc;
 
@@ -12,7 +13,7 @@ pub trait Node {
 
 pub struct Document {
     pub head: Head,
-    body: Vec<Rc<RefCell<dyn Node>>>,
+    body: Vec<dyn Node>,
 }
 
 impl Document {
@@ -25,9 +26,9 @@ impl Document {
     }
 
     pub fn h1(&mut self, text: String) -> H1 {
-        let (element, node) = H1::new(text);
+        let node = H1::new(text);
         self.body.push(node);
-        element
+        node
     }
 
     pub fn render(&self) -> String {
