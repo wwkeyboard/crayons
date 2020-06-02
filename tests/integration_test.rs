@@ -4,15 +4,15 @@ use select::predicate::Name;
 
 #[test]
 fn test_empty_document() {
+    // Build a new document with only a title
     let mut doc = cDoc::new();
-
     doc.head.title.text = "test".to_owned();
 
-    let html = &doc.render()[..];
+    // render the document
+    let html = doc.render();
 
-    let document = Document::from(html);
-
+    // parse the document and test the results
+    let document = Document::from(html.as_str());
     let title = document.find(Name("title")).last().unwrap();
-
     assert_eq!("test", title.text());
 }
