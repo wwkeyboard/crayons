@@ -1,8 +1,6 @@
 #![allow(dead_code)]
-use std::cell::RefCell;
-use std::rc::Rc;
 
-use elements::h1::H1;
+use elements::body::Body;
 use elements::head::Head;
 
 mod elements;
@@ -13,33 +11,21 @@ pub trait Node {
 
 pub struct Document {
     pub head: Head,
-    body: Vec<Rc<RefCell<dyn Node>>>,
+    body: Body,
 }
 
 impl Document {
     pub fn new() -> Document {
-        let head = Head::new();
         Document {
-            body: vec![],
-            head: head,
+            body: Body::new(),
+            head: Head::new(),
         }
-    }
-
-    pub fn h1(&mut self, text: String) -> H1 {
-        let node = H1::new(text);
-        self.body.push(Rc::new(RefCell::new(node.clone())));
-        node
     }
 
     pub fn render(&self) -> String {
         let head = self.head.render();
-        let inner = self
-            .body
-            .iter()
-            .map(|x| x.borrow().render())
-            .collect::<Vec<String>>()
-            .join("\n");
-        format!("<!DOCTYPE html><html>{}<body>{}</body></html>", head, inner)
+        let body = self.body.render();
+        format!("<!DOCTYPE html><html>{}<body>{}</body></html>", head, body)
     }
 }
 
@@ -61,7 +47,7 @@ mod tests {
     fn with_body() {
         let mut doc = Document::new();
         doc.head.title.text = "this test!".to_owned();
-        doc.h1("I'm here!".to_owned());
+        doc.body.h1().title("I'm here!".to_owned());
         let result = Document::render(&doc);
         assert_eq!(
             result,
