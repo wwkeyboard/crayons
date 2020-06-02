@@ -22,9 +22,9 @@ impl Node for Div {
 }
 
 impl Div {
-    fn h1(&self) -> H1 {
+    fn h1(&mut self) -> H1 {
         let h1 = H1::new("".to_owned());
-        self.children.push(Rc::new(RefCell::new(h1)));
+        self.children.push(Rc::new(RefCell::new(h1.clone())));
         h1
     }
 }
@@ -41,8 +41,8 @@ mod tests {
 
     #[test]
     fn with_header() {
-        let div = Div { children: vec![] };
-        div.h1().text = "hi".to_string();
+        let mut div = Div { children: vec![] };
+        div.h1().title("hi".to_string());
         assert_eq!(div.render(), "<div><h1>hi</h1></div>");
     }
 }

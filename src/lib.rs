@@ -13,7 +13,7 @@ pub trait Node {
 
 pub struct Document {
     pub head: Head,
-    body: Vec<dyn Node>,
+    body: Vec<Rc<RefCell<dyn Node>>>,
 }
 
 impl Document {
@@ -27,7 +27,7 @@ impl Document {
 
     pub fn h1(&mut self, text: String) -> H1 {
         let node = H1::new(text);
-        self.body.push(node);
+        self.body.push(Rc::new(RefCell::new(node.clone())));
         node
     }
 
