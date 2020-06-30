@@ -4,6 +4,7 @@ use std::rc::Rc;
 use crate::elements::h1::H1;
 use crate::Node;
 
+#[derive(Clone)]
 pub struct Div {
     children: Vec<Rc<RefCell<dyn Node>>>,
 }
@@ -22,6 +23,10 @@ impl Node for Div {
 }
 
 impl Div {
+    pub fn new() -> Div {
+        Div { children: vec![] }
+    }
+
     fn h1(&mut self) -> H1 {
         let h1 = H1::new("".to_owned());
         self.children.push(Rc::new(RefCell::new(h1.clone())));

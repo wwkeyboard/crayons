@@ -4,7 +4,7 @@ use std::rc::Rc;
 
 #[derive(Clone)]
 pub struct H1 {
-    pub text: Rc<RefCell<String>>,
+    text: Rc<RefCell<String>>,
 }
 
 impl Node for H1 {

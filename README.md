@@ -31,3 +31,7 @@ Crayons isn't meant for performance critical portions of your
 application. It's performance goals are to not be embarrassingly
 slow. Outside of that it's primary concerns are to be easy to use and
 generate relatively correct HTML.
+
+## Testing
+
+There are unit tests for the specific modules, these can be run with `cargo test`. There are integration tests that build a document, then parse it with select, failing the test if the created document doesn't parse.

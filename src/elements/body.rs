@@ -2,6 +2,7 @@ use crate::Node;
 use std::cell::RefCell;
 use std::rc::Rc;
 
+use crate::elements::div::Div;
 use crate::elements::h1::H1;
 
 pub struct Body {
@@ -17,6 +18,12 @@ impl Body {
         let h1 = H1::new("".to_owned());
         self.children.push(Rc::new(RefCell::new(h1.clone())));
         h1
+    }
+
+    pub fn div(&mut self) -> Div {
+        let div = Div::new();
+        self.children.push(Rc::new(RefCell::new(div.clone())));
+        div
     }
 }
 
