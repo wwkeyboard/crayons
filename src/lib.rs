@@ -25,7 +25,7 @@ impl Document {
     pub fn render(&self) -> String {
         let head = self.head.render();
         let body = self.body.render();
-        format!("<!DOCTYPE html><html>{}<body{}</body></html>", head, body)
+        format!("<!DOCTYPE html><html>{}{}</html>", head, body)
     }
 }
 
